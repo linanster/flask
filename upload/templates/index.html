@@ -1,27 +1,33 @@
-    <!doctype html>
-<title>Upload new File</title>
+<html>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Upload new File</title>
     <h1>Upload new File</h1>
-    <form method=post enctype=multipart/form-data>
-      <input type=file name=file>
-      <input type=submit value=Upload>
+    <form action={{ url_for('upload_file') }} method="post" enctype=multipart/form-data>
+        <input type=file name=file>
+        <input type=submit value=Upload>
     </form>
-<br>
+    <br>
 
-  <table border="1">
-    <tr>
-      <th>Index</th>
-      <th>File</th>
-      <th>Operation</th>
-    </tr>
-    {% for file in filelist %}
-    <tr>
-      <td>{{ loop.index }}</td>
-      <td>{{file}}</td>
-      <td><a href="{{url_for('download_file', filename=file)}}">download</a>&nbsp; &nbsp; 
-	  <a href="{{url_for('view_file', filename=file)}}">view</a></td>
-    </tr>
-    {% else %}
-    {% endfor %}
-  </table>
-
+    <table border="1">
+        <tr>
+            <th>Index</th>
+            <th>File</th>
+            <th>Operation</th>
+        </tr>
+        {% for file in filelist %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>&nbsp;{{ file }}&nbsp;</td>
+                <td>
+                    &nbsp;
+                    <a href="{{ url_for('view_file', filename=file) }}">view</a>&nbsp;
+                    <a href="{{ url_for('download_file', filename=file) }}">download</a>&nbsp; &nbsp;
+                    <a href="{{ url_for('delete_file', filename=file) }}" style="color: orangered" οnclick="{if(confirm('Delete confirmed?')){this.document.formname.submit();return true;}return false;}">delete</a>&nbsp;
+                </td>
+            </tr>
+        {% else %}
+        {% endfor %}
+    </table>
+    <a href="{{ url_for('upload_file') }}">refresh</a>
+</html>
 

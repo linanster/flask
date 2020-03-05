@@ -1,15 +1,15 @@
 #! /usr/bin/env python
 # coding: utf8
 #
-
-from os import path, listdir
+import os
+from os import path, listdir, remove
 from flask import Flask, flash, request, redirect, url_for, send_from_directory, render_template
 from werkzeug.utils import secure_filename
 # from werkzeug.wsgi import SharedDataMiddleware
 
 EXT_LIMIT = True
 # UPLOAD_FOLDER = 'C:\Users\\212790747\python\upload'
-UPLOAD_FOLDER = path.abspath(path.dirname(__file__))
+UPLOAD_FOLDER = os.path.abspath(os.path.dirname(__file__))
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 app = Flask(__name__)
@@ -36,15 +36,15 @@ def upload_file():
         if EXT_LIMIT and not allowed_file(file.filename):
             return "File extention forbidden!"            
         if file:
-            filename = secure_filename(file.filename)
-            destfile = path.join(app.config['UPLOAD_FOLDER'], filename)  
+            filename = secure_filename(file.filename)            
+            destfile = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(destfile)
             # GET: /download/note.txt
             # return redirect(url_for('download_file', filename=filename))
             return redirect(url_for('upload_file'))            
             # return destfile
     
-    filelist = listdir(app.config['UPLOAD_FOLDER'])
+    filelist = os.listdir(app.config['UPLOAD_FOLDER'])
     return render_template('index.html', filelist=filelist)
         
 
@@ -55,6 +55,12 @@ def download_file(filename):
 @app.route('/view/<filename>')
 def view_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+@app.route('/delete/<filename>', methods=['GET', 'DELETE'])
+def delete_file(filename):
+    sourcefile = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+    os.remove(sourcefile)
+    return redirect(url_for('upload_file'))
 
 app.add_url_rule('/download/<filename>', 'download_file', build_only=True)
 
