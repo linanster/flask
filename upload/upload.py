@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 # coding: utf8
 #
 import os
@@ -9,10 +9,12 @@ from werkzeug.utils import secure_filename
 
 EXT_LIMIT = True
 # UPLOAD_FOLDER = 'C:\Users\\212790747\python\upload'
-UPLOAD_FOLDER = os.path.abspath(os.path.dirname(__file__))
+cur_folder = os.path.abspath(os.path.dirname(__file__))
+UPLOAD_FOLDER = cur_folder
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+FORBIDDEN_DEL = ['upload.py', 'upload_mini.py', 'index.html', '.idea']
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder=cur_folder)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['SECRET_KEY'] = 'ABC'
 
@@ -45,7 +47,7 @@ def upload_file():
             # return destfile
     
     filelist = os.listdir(app.config['UPLOAD_FOLDER'])
-    return render_template('index.html', filelist=filelist)
+    return render_template('index.html', filelist=filelist, forbidden_del=FORBIDDEN_DEL)
         
 
 @app.route('/download/<filename>')
