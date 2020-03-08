@@ -13,7 +13,8 @@
          {{ message }}
       {%- endfor %}
 		
-      <h3>Students (<a href = "{{ url_for('add') }}">Add Student</a>)</h3>
+      <h3>Students</h3>
+      
       <table border='1'>
         <tr>
            <th>Name</th>
@@ -37,5 +38,7 @@
            </tr>
         {% endfor %}
       </table>
+      <a href="{{ url_for('index') }}">refresh</a> | 
+      <a href = "{{ url_for('add') }}">add</a> 
    </body>
 </html>

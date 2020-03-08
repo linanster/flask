@@ -7,36 +7,21 @@
       
       {%- for category, message in get_flashed_messages(with_categories = true) %}
          <div class = "alert alert-danger">
-            {{ message }}
+            {{ category}}:{{ message }}
          </div>
       {%- endfor %}
-      {% if student %}
-       <form action = "{{ url_for('add', id=student.id) }}" method = "post">
-         <input type = "hidden" name = "id" value={{student.id}} /><br>
+       <form action = "{{ url_for('add') }}" method = "post">
+         <input type = "hidden" name = "id" value={{id}} ><br>
+
          <label for = "name">Name</label><br>
-         <input type = "text" name = "name" value={{student.name}} ><br>
+         <input type = "text" name = "name" value={{name}} ><br>
          <label for = "email">City</label><br>
-         <input type = "text" name = "city" value= {{student.city}} ><br>
+         <input type = "text" name = "city" value= {{city}} ><br>
          <label for = "addr">addr</label><br>
-         <textarea name = "addr" >{{student.addr}}</textarea><br>
+         <textarea name = "addr" >{{ addr }}</textarea><br>
          <label for = "PIN">Pin</label><br>
-         <input type = "text" name = "pin" value={{ student.pin }} ><br>
-         
+         <input type = "text" name = "pin" value={{ pin }} ><br>
          <input type = "submit" value = "Submit" />
       </form>     
-      {% else %}
-      <form action = "{{ request.path }}" method = "post">
-         <label for = "name">Name</label><br>
-         <input type = "text" name = "name" placeholder = "Name" /><br>
-         <label for = "email">City</label><br>
-         <input type = "text" name = "city" placeholder = "city" /><br>
-         <label for = "addr">addr</label><br>
-         <textarea name = "addr" placeholder = "addr"></textarea><br>
-         <label for = "PIN">Pin</label><br>
-         <input type = "text" name = "pin" placeholder = "pin" /><br>
-         <input type = "submit" value = "Submit" />
-      </form>
-      {% endif %}
-      
    </body>
 </html>
