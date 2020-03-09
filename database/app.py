@@ -56,9 +56,12 @@ def add():
             return redirect(url_for('index'))
     return render_template('add.html')
     
-@app.route('/delete')
+@app.route('/delete', methods=['GET','POST'])
 def delete():
-    id = request.args.get('id')
+    if request.method == 'POST':
+        id = request.form.get('id')
+    else:
+        id = request.args.get('id')
     # 删除
     student = Students.query.get(id)
     db.session.delete(student)
@@ -66,14 +69,18 @@ def delete():
     flash('Record was successfully deleted')
     return redirect(url_for('index'))
 
-@app.route('/edit')
+@app.route('/edit', methods=['GET','POST'])
 def edit():
-    id = request.args.get('id')
+    if request.method == 'POST':
+        id = request.form.get('id')
+    else:
+        id = request.args.get('id')
     student = Students.query.get(id)
     # return render_template('add.html', student=student)
     return render_template('add.html', id=student.id, name=student.name, city=student.city, addr=student.addr, pin=student.pin)
 
 
+
 if __name__ == '__main__':
     db.create_all()
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', debug=True)

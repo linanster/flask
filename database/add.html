@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html>
    <body>
-   
-      <h3>Students - Flask SQLAlchemy example</h3>
-      <hr/>
       
       {%- for category, message in get_flashed_messages(with_categories = true) %}
          <div class = "alert alert-danger">
@@ -21,6 +18,7 @@
          <textarea name = "addr" >{{ addr }}</textarea><br>
          <label for = "PIN">Pin</label><br>
          <input type = "text" name = "pin" value={{ pin }} ><br>
+		 <br>
          <input type = "submit" value = "Submit" />
       </form>     
    </body>
