@@ -42,7 +42,6 @@ def add():
             # 添加
             if id == '':
                 student = Students(name, city, addr, pin)
-                db.session.add(student)
                 flash('Record was successfully added')            
             # 编辑            
             else:
@@ -52,6 +51,7 @@ def add():
                 student.addr = addr
                 student.pin = pin
                 flash('Record was successfully updated')            
+            db.session.add(student)
             db.session.commit()
             return redirect(url_for('index'))
     return render_template('add.html')
